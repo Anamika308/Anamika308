@@ -1,0 +1,329 @@
+//code from Anamika 
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+ struct Node
+ {
+ 	int data;
+ 	Node *next;
+ }*tail;
+ class LinkedList
+ {
+ 	private:
+    Node* head;
+  public:
+    LinkedList(){
+      head = NULL;
+    }
+    void insert1(int newdata)
+    {  	
+   struct Node *newnode = (struct Node *)malloc(sizeof(struct Node));
+   struct Node *ptr = head;
+   newnode->data = newdata;
+   newnode->next = head;
+   if (head!= NULL) {
+      while (ptr->next != head)
+      ptr = ptr->next;
+      ptr->next = newnode;
+   } else
+   newnode->next = newnode;
+   head = newnode;
+}
+    void insert2(int newdata)
+    {  	
+   struct Node *newnode = (struct Node *)malloc(sizeof(struct Node));
+   struct Node *ptr = head;
+   newnode->data = newdata;
+   newnode->next = head;
+   if (head!= NULL) {
+      while (ptr->next != head)
+      ptr = ptr->next;
+      ptr->next = newnode;
+   } else
+   newnode->next = newnode;
+   head = newnode;
+}
+    void insert_first(int newElement) {
+      Node* newNode = new Node();
+      newNode->data = newElement;
+      newNode->next = NULL; 
+      if(head == NULL) {
+        head = newNode;
+        newNode->next = head;
+      } else {
+        Node* temp = head;
+        while(temp->next != head)
+          temp = temp->next;
+        temp->next = newNode;
+        newNode->next = head;
+        head = newNode;
+      }  
+}
+  void insert_position(int newElement, int position) {
+      Node* newNode = new Node(); 
+      newNode->data = newElement;
+      newNode->next = NULL;
+      Node* temp = head;
+      int NoOfElements = 0;
+      if(temp != NULL) {
+        NoOfElements++;
+        temp = temp->next;
+      }
+      while(temp != head) {
+        NoOfElements++;
+        temp = temp->next;
+      }
+      if(position < 1 || position > (NoOfElements+1)) {
+        cout<<"\nInavalid position.";
+      } else if (position == 1) {
+      
+        if(head == NULL) {
+          head = newNode;
+          head->next = head;
+        } else {
+          while(temp->next != head) {
+            temp = temp->next;
+          }
+          temp->next = newNode;
+          newNode->next = head;
+          head = newNode;
+        }
+      } else {
+
+        temp = head;
+        for(int i = 1; i < position-1; i++)
+          temp = temp->next;
+        newNode->next = temp->next;
+        temp->next = newNode;  
+      }
+    }
+
+   void insert_last(int newElement) {
+      Node* newNode = new Node();
+      newNode->data = newElement;
+      newNode->next = NULL; 
+      if(head == NULL) {
+        head = newNode;
+        newNode->next = head;
+      } else {
+        Node* temp = head;
+        while(temp->next != head)
+          temp = temp->next;
+        temp->next = newNode;
+        newNode->next = head;
+      }    
+    }
+ //Delete first node of the list
+void delete_first()  
+{  
+    struct Node *ptr;  
+    if(head == NULL)  
+    {  
+        cout<<"\nUNDERFLOW\n";      
+    }  
+    else if(head->next == head)  
+    {  
+        head = NULL;  
+        free(head);     
+    }  
+      
+    else  
+    {     
+        ptr = head;   
+        while(ptr -> next != head)  
+            ptr = ptr -> next;   
+        ptr->next = head->next;  
+        free(head);  
+        head = ptr->next;     
+    }  
+}  
+  void delete_position(int pos)
+     {
+      Node* nodeToDelete = head; 
+      Node* temp = head;
+      int NoOfElements = 0;
+
+      if(temp != NULL) {
+        NoOfElements++;
+        temp = temp->next;
+      }
+      while(temp != head) {
+        NoOfElements++;
+        temp = temp->next;
+      }
+
+      if(pos < 1 || pos > NoOfElements) {
+        cout<<"\nInavalid position.";
+      } else if (pos == 1) {
+        if(head->next == head) {
+          head = NULL;
+        } else {     
+          while(temp->next != head)
+            temp = temp->next;
+          head = head->next;
+          temp->next = head; 
+          free(nodeToDelete); 
+        }
+      } else {
+
+        temp = head;
+        for(int i = 1; i < pos-1; i++)
+          temp = temp->next;
+        nodeToDelete = temp->next;
+        temp->next = temp->next->next;
+        free(nodeToDelete); 
+      }
+    }
+   //Delete last node of the list
+    void delete_last() {
+      if(head != NULL) {
+        if(head->next == head) {
+          head = NULL;
+        } else {
+          Node* temp = head;
+          while(temp->next->next != head)
+            temp = temp->next;
+          Node* lastNode = temp->next;
+          temp->next = head;
+          free(lastNode); 
+        }
+      }
+    }
+ //Search an element in the list
+    void search_element(int searchValue) {
+      Node* temp = head;
+      int found = 0;
+      int i = 0;
+
+      if(temp != NULL) {
+        while(true) {
+          i++;
+          if(temp->data == searchValue) {
+            found++;
+            break;
+          }
+          temp = temp->next;
+          if(temp == head) {break;}     
+        }
+        if (found == 1) {
+          cout<<searchValue<<" is found at index = "<<i<<".\n";
+        } else {
+          cout<<searchValue<<" is not found in the list.\n";
+        }
+      } else {
+        cout<<"The list is empty.\n";
+      }
+    }
+    void display() {
+      Node* temp = head;
+      if(temp != NULL) {
+        while(true) {
+          cout<<temp->data<<"  ";
+          temp = temp->next;
+          if(temp == head) 
+            break;
+        }
+      } else {
+        cout<<"The list is empty.\n";
+      }
+    }     
+};
+int main()
+{
+	LinkedList obj;
+	obj.insert1(40);
+	obj.insert1(30);
+	obj.insert1(20);
+	obj.insert1(10);
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"---------------Displaying All nodes---------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"----------------Inserting At Start----------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.insert1(5);
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"-------------Inserting At End--------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.insert_last(45);
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"-------------Inserting At Particular--------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.insert_position(25,4);
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"----------------Deleting At Start-----------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.delete_first();
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"----------------Deleting At End-----------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.delete_last();
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"--------------Deleting At Particular--------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.delete_position(3);
+	obj.display();
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"----------------Finding the element-----------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.search_element(20);
+	obj.search_element(15);
+	cout<<"\n--------------------------------------------------\n";
+	cout<<"----------------Concatenate two list-----------------";
+	cout<<"\n--------------------------------------------------\n";
+	obj.insert2(45);
+	obj.insert2(35);
+	obj.insert2(25);
+	obj.insert2(15);
+	obj.display();
+	
+	return 0;
+}
+/*-----------OUTPUT-------------
+--------------------------------------------------
+---------------Displaying All nodes---------------
+--------------------------------------------------
+10  20  30  40
+--------------------------------------------------
+----------------Inserting At Start----------------
+--------------------------------------------------
+5  10  20  30  40
+--------------------------------------------------
+-------------Inserting At End--------------
+--------------------------------------------------
+5  10  20  30  40  45
+--------------------------------------------------
+-------------Inserting At Particular--------------
+--------------------------------------------------
+5  10  20  25  30  40  45
+--------------------------------------------------
+----------------Deleting At Start-----------------
+--------------------------------------------------
+10  20  25  30  40  45
+--------------------------------------------------
+----------------Deleting At End-----------------
+--------------------------------------------------
+10  20  25  30  40
+--------------------------------------------------
+--------------Deleting At Particular--------------
+--------------------------------------------------
+10  20  30  40
+--------------------------------------------------
+----------------Finding the element-----------------
+--------------------------------------------------
+20 is found at index = 2.
+15 is not found in the list.
+
+--------------------------------------------------
+----------------Concatenate two list-----------------
+--------------------------------------------------
+15  25  35  45  10  20  30  40
+--------------------------------
+*/
